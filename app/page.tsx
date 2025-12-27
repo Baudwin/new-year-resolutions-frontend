@@ -21,8 +21,6 @@ export default function HomePage() {
   }, [text, loading]);
 
   function newIdempotencyKey() {
-    // In modern browsers, crypto.randomUUID() exists.
-    // If you need fallback: crypto.getRandomValues(...)
     return crypto.randomUUID();
   }
 

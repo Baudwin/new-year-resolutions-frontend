@@ -75,7 +75,7 @@ export default function WallPage() {
           </p>
             <div className="mt-3">
                 <a
-                    href="/home"
+                    href="/"
                     className="text-sm text-neutral-600 hover:text-neutral-900 transition"
                 >
                     Write your own
