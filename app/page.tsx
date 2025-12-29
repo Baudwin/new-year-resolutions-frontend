@@ -91,8 +91,8 @@ const trimmedText = text.trim();
 
             <div>
             <div className="mb-6">
-          <p className="mt-2 text-3xl text-neutral-600">
-            Something to sit with...
+          <p className="mt-2 text-2xl font-medium text-neutral-600">
+            A few thoughts for you
           </p>
         </div>
           <section className="mt-6 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
@@ -122,12 +122,19 @@ const trimmedText = text.trim();
         ) : 
         
         (
+            <div className='space-y-10'>
+
+          <p className=' text-lg text-neutral-600 mb-8 font-medium'>Its the start of a new year.</p>
+          {/* <p className=' text-sm text-neutral-500 mb-6'>If you feel like it, take a moment to reflect.</p> */}
+
+
             <div>
-        <div className="mb-6">
-          <p className="mt-2 text-3xl text-center text-neutral-600">
-            What’s something you want to work on in 2026?
-          </p>
-        </div>
+          <h1 className="mt-2 mb-0.5 text-3xl text-neutral-600">
+          What’s something you want to work on this year?
+          </h1>
+          <p className='text-neutral-500 mb-6 text-sm'>It doesnt't have to be perfect.</p>
+     
+            </div>
 
         <form onSubmit={onSubmit} className="">
 
@@ -171,10 +178,6 @@ const trimmedText = text.trim();
             
             
         )
-        
-        
-        
-        
         
         
         }
