@@ -1,6 +1,6 @@
 'use client';
-
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type ApiResponse = {
   resolution: { id: string; text: string; createdAt: string };
@@ -12,8 +12,22 @@ export default function HomePage() {
   const [result, setResult] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [latest, setLatest] = useState<any>(null);
+  const router = useRouter();
 
-  const idempotencyKeyRef = useRef<string | null>(null);
+
+    useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/resolution/latest`, {
+      credentials: 'include',
+    })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => setLatest(data))
+      .catch(() => {});
+  }, []);
+
+
+
+  // const idempotencyKeyRef = useRef<string | null>(null);
 
   const canSubmit = useMemo(() => {
     const trimmedText = text.trim();
@@ -33,7 +47,7 @@ const trimmedText = text.trim();
     setError(null);
     setResult(null);
 
-    idempotencyKeyRef.current = newIdempotencyKey();
+    // idempotencyKeyRef.current = newIdempotencyKey();
 
     try {
       const res = await fetch(
@@ -76,15 +90,45 @@ const trimmedText = text.trim();
     setResult(null);
     setError(null);
     setLoading(false);
-    idempotencyKeyRef.current = null;
+    // idempotencyKeyRef.current = null;
   }
 
   return (
+
+    latest ? 
+
+          <main className="min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-xl w-full">
+          <p className="text-sm text-neutral-500 mb-4">
+            Hey! You were thinking about this earlier:
+          </p>
+
+          <div className="border border-neutral-200 bg-neutral-50 text-black p-4 rounded-lg mb-6">
+            <p>"{latest.text}"</p>
+          </div>
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => router.push(`/check-in/${latest.id}`)}
+              className="px-4 py-2 bg-neutral-900 text-white rounded-lg"
+            >
+              Check in
+            </button>
+
+            <button
+              onClick={() => setLatest(null)}
+              className="text-neutral-600"
+            >
+              Start something new
+            </button>
+          </div>
+        </div>
+      </main>
+      :
+    
     <main className="min-h-screen flex items-center justify-center px-4">
 
-
       <div className="w-full max-w-2xl">
-
 
         {/* Ai response */}
         {result ? (
@@ -124,9 +168,10 @@ const trimmedText = text.trim();
         (
             <div className='space-y-10'>
 
-          <p className=' text-lg text-neutral-600 mb-8 font-medium'>Its the start of a new year.</p>
-          {/* <p className=' text-sm text-neutral-500 mb-6'>If you feel like it, take a moment to reflect.</p> */}
-
+          <div className='mb-8'>
+          <p className=' text-lg text-neutral-600 font-medium'>Its the start of a new year.</p>
+          {/* <p className=' text-sm text-neutral-500 mb-6'>You made it though another year.</p> */}
+          </div>
 
             <div>
           <h1 className="mt-2 mb-0.5 text-3xl text-neutral-600">
