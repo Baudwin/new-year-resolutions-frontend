@@ -18,14 +18,14 @@ export default function Footer() {
           About
         </a>
 
-        <span aria-hidden="true">·</span>
+        {/* <span aria-hidden="true">·</span> */}
 
-        <a
+        {/* <a
           href="/resolutions"
           className="hover:text-neutral-700 transition-colors"
         >
           What others are working on
-        </a>
+        </a> */}
       </nav>
 
       <p className="text-[11px] text-neutral-400">

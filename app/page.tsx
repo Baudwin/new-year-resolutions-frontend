@@ -93,11 +93,9 @@ const trimmedText = text.trim();
     // idempotencyKeyRef.current = null;
   }
 
-  return (
 
-    latest ? 
-
-          <main className="min-h-screen flex items-center justify-center px-4">
+if (latest) {
+  return  <main className="min-h-screen flex items-center justify-center px-4">
         <div className="max-w-xl w-full">
           <p className="text-sm text-neutral-500 mb-4">
             Hey! You were thinking about this earlier:
@@ -124,7 +122,11 @@ const trimmedText = text.trim();
           </div>
         </div>
       </main>
-      :
+
+}
+
+
+  return (
     
     <main className="min-h-screen flex items-center justify-center px-4">
 
