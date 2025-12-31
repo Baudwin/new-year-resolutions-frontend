@@ -44,7 +44,7 @@ export default function CheckInPage() {
 
     resolution ? 
 
-    <main className="min-h-screen flex items-center justify-center px-4 text-black py-10">
+    <main className="min-h-screen flex items-center justify-center px-4 text-black py-16 sm:py-12">
       <div className="max-w-xl w-full">
 
         <p className="text-sm text-neutral-500 mb-4">

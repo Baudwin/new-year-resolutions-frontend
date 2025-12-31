@@ -124,10 +124,11 @@ const trimmedText = text.trim();
 
 if (latest) {
   return  <main className="min-h-screen flex items-center justify-center px-4">
+
         <div className="max-w-xl w-full">
           <p className="text-sm text-neutral-500 mb-4">
             Hey! You were thinking about this earlier:
-          </p>
+          </p> 
 
           <div className="border border-neutral-200 bg-neutral-50 text-black p-4 rounded-lg mb-6">
             <p>{latest.text}</p>
@@ -156,7 +157,7 @@ if (latest) {
 
   return (
     
-    <main className="min-h-screen flex items-center justify-center px-4">
+    <main className=" py-24 sm:h-full xs:h-full sm:py-16 md:min-h-screen flex items-center justify-center px-4">
 
       <div className="w-full max-w-2xl">
 
@@ -172,9 +173,9 @@ if (latest) {
           <section className="mt-6 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
             
 
-            <div className="text-xs text-neutral-500">
+            {/* <div className="text-xs text-neutral-500">
               Your reflection
-            </div>
+            </div> */}
 
             <div className="mt-3 whitespace-pre-wrap text-[15px] leading-7 text-neutral-900">
               {result.aiResponse.text}
@@ -212,7 +213,7 @@ if (latest) {
           </div>
 
             <div>
-          <h1 className="mt-2 mb-0.5 text-3xl text-neutral-600">
+          <h1 className="mt-2 mb-0.5 text-3xl sm:text-2xl text-neutral-600 font-medium">
           What’s something you want to work on this year?
           </h1>
           <p className='text-neutral-500 mb-6 text-sm'>It doesnt't have to be perfect.</p>
