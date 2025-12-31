@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="py-3 flex flex-col items-center gap-2 border">
+    <footer className="py-3 flex flex-col items-center gap-2 border bg-neutral-100 shadow">
       <nav className="flex gap-4 text-xs text-neutral-500">
         <a
           href="/privacy"

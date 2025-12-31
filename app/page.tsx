@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 type ApiResponse = {
   resolution: { id: string; text: string; createdAt: string };
-  aiResponse: { text: string; createdAt: string };
+  aiResponse: {id: string; text: string; createdAt: string };
 };
 
 export default function HomePage() {
@@ -13,6 +13,10 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [latest, setLatest] = useState<any>(null);
+  const [responseId, setResponseId] = useState('')
+  const [kept, setKept] = useState(false)
+  const [keeping, setKeeping] = useState(false);
+
   const router = useRouter();
 
 
@@ -73,15 +77,39 @@ const trimmedText = text.trim();
 
       const data = (await res.json()) as ApiResponse;
       setResult(data);
+      setResponseId(data.aiResponse.id)
     } catch (err: any) {
       setError(
-        err?.message?.includes('quota')
-          ? 'Too many requests right now. Try again later.'
+        err?.message?.includes('limit')
+          ? `You've already shared a few thoughts today. You can return tommorow if you want.`
           : 'Something went wrong. Please try again.'
       );
     } finally {
       setLoading(false);
     }
+  }
+
+
+  const keepResponse = async()=>{
+    try {
+      setKeeping(true)
+      const res =  await  fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai-response/${responseId}/keep`, {
+         method:'POST',
+         credentials: 'include',
+       })
+
+       if (!res.ok) {
+        throw new Error('Failed to keep')
+       }
+       setKept(true)
+      
+    } catch (error) {
+      console.log(error)
+    }
+    finally {
+      setKeeping(false);
+    }
+  
   }
   
 
@@ -102,20 +130,20 @@ if (latest) {
           </p>
 
           <div className="border border-neutral-200 bg-neutral-50 text-black p-4 rounded-lg mb-6">
-            <p>"{latest.text}"</p>
+            <p>{latest.text}</p>
           </div>
 
           <div className="flex gap-4">
             <button
               onClick={() => router.push(`/check-in/${latest.id}`)}
-              className="px-4 py-2 bg-neutral-900 text-white rounded-lg"
+              className="px-4 py-2 bg-neutral-900 text-white rounded-lg shadow"
             >
               Check in
             </button>
 
             <button
               onClick={() => setLatest(null)}
-              className="text-neutral-600"
+              className="text-sm text-neutral-600 rounded-lg border border-neutral-200 px-5 py-2 shadow "
             >
               Start something new
             </button>
@@ -152,13 +180,21 @@ if (latest) {
               {result.aiResponse.text}
             </div>
 
-            <div className="mt-5 flex gap-3">
+            <div className="mt-5 flex justify-between items-center">
               <button
                 onClick={onReset}
-                className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-50"
+                className="rounded-xl border shadow border-neutral-200 px-4 py-2 bg-slate-700 text-sm font-medium text-white hover:bg-neutral-700"
               >
                 Write another one
               </button>
+
+                   {/* <button
+                onClick={keepResponse}
+                disabled={keeping || kept}
+                className="rounded-xl border border-neutral-200 px-4 py-2 bg-neutral-50 text-sm font-medium text-black hover:bg-neutral-200 disabled:hover:bg-neutral-50 disabled:opacity-100 disabled:cursor-not-allowed"
+              >
+                 {kept ?'Kept':keeping? 'Keeping...' : 'Keep this'}
+              </button> */}
 
             </div>
           </section>
@@ -170,7 +206,7 @@ if (latest) {
         (
             <div className='space-y-10'>
 
-          <div className='mb-8'>
+          <div className='mb-14'>
           <p className=' text-lg text-neutral-600 font-medium'>Its the start of a new year.</p>
           {/* <p className=' text-sm text-neutral-500 mb-6'>You made it though another year.</p> */}
           </div>
@@ -203,7 +239,7 @@ if (latest) {
             <button
               type="submit"
               disabled={!canSubmit}
-              className=" rounded-md px-6 py-3 text-sm font-medium bg-neutral-900 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="shadow rounded-md px-6 py-3 text-sm font-medium bg-neutral-900 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Taking a moment…' : 'Reflect'}
             </button>
@@ -212,7 +248,6 @@ if (latest) {
         <p className="mt-6 text-xs text-neutral-500">
           Tip: keep it honest and specific. The best answers come from real details.
         </p>
-
 
           {error && (
             <p className="mt-3 text-sm text-red-600">

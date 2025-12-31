@@ -56,11 +56,11 @@ export default function CheckInPage() {
         </div>
 
 
-        <p className="text-sm text-neutral-500 mb-2">
+        <p className="text-sm text-neutral-500 mb-4">
           At the time, these were the thoughts you were given:
         </p>
 
-        <div className="mb-8 rounded-lg border-neutral-200 bg-neutral-50 p-3">
+        <div className="border border-neutral-200 bg-neutral-50 p-4 rounded-lg mb-8">
           <p className="text-neutral-700 leading-relaxed">
             {resolution?.aiResponse?.responseText}
           </p>
@@ -83,14 +83,14 @@ export default function CheckInPage() {
         <button
           onClick={submitCheckIn}
           disabled={saving}
-          className="px-6 py-2 bg-neutral-900 text-white rounded-lg"
+          className="px-6 py-2 bg-neutral-900 text-white rounded-lg shadow"
         >
           {saving ? 'Saving…' : 'Save check-in'}
         </button>
 
           <button
             onClick={() => router.push('/')}
-            className="text-sm text-neutral-600"
+            className="text-sm text-neutral-600 rounded-xl border border-neutral-200 px-5 py-2 shadow "
           >
             Leave it here
           </button>
